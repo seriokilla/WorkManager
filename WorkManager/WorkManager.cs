@@ -12,7 +12,7 @@ namespace WorkManager
 	{
 		public void DoWork(string msg)
 		{
-			Debug.WriteLine("Worker1: " + msg);
+			Debug.WriteLine("Worker: " + msg);
 		}
 	}
 
@@ -53,5 +53,5 @@ namespace WorkManager
 		}
 	}
 
-	
+
 }
