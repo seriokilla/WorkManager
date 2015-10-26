@@ -22,6 +22,7 @@ namespace WorkManager.UnitTests
 		{
 			var container = new UnityContainer();
 			container.AddNewExtension<Interception>();
+
 			container.RegisterInstance<IWorker>(
 				new WorkerDelegate() { Work = msg => Debug.WriteLine("WorkerDelegate: " + msg) },
 				new ContainerControlledLifetimeManager());
@@ -57,7 +58,7 @@ namespace WorkManager.UnitTests
 		{
 			var m = new Mock<IWorker>();
 			m.Setup(f => f.DoWork(It.IsAny<string>()))
-			 .Callback<string>(str => { Debug.WriteLine("TestMoqNoUnity: " + str); });
+			 .Callback<string>(str => { Debug.WriteLine("MoqWorker: " + str); });
 
 			var mgr = new WorkManager { GetWorkerFromIocContainer = () => m.Object };
 			mgr.WorkerDoWork("TestMoqNoUnity");
@@ -68,7 +69,7 @@ namespace WorkManager.UnitTests
 		{
 			var m = new Mock<IWorker>();
 			m.Setup(f => f.DoWork(It.IsAny<string>()))
-			 .Callback<string>(str => { Debug.WriteLine("TestMoqWithUnity: " + str); });
+			 .Callback<string>(str => { Debug.WriteLine("MoqWorker: " + str); });
 
 			var container = new UnityContainer();
 			container.RegisterInstance(m.Object);
