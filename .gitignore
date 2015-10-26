@@ -49,4 +49,9 @@ Temporary Items
 .apdisk
 packages
 bin
+<<<<<<< HEAD
 obj
+.vs
+=======
+obj
+>>>>>>> r1026-0655
