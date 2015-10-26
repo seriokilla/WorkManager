@@ -13,7 +13,7 @@ namespace WorkManager.UnitTests
 		[ExpectedException(typeof(System.Exception))]
 		public void TestWorkerDelUnityException()
 		{
-			var mgr = new WorkManager();
+			var mgr = new WorkerManager(null);
 			mgr.WorkerDoWork("TestWorkerDelUnityException");
 		}
 
@@ -31,7 +31,7 @@ namespace WorkManager.UnitTests
 				new Interceptor<InterfaceInterceptor>(),
 				new InterceptionBehavior<LoggingInterceptionBehavior>());
 
-			var mgr = new WorkManager { GetWorkerFromIocContainer = () => container.Resolve<IWorker>() };
+			var mgr = new WorkerManager(container.Resolve<IWorker>());
 			mgr.WorkerDoWork("TestWorkerDelegateUnity");
 		}
 
@@ -49,7 +49,7 @@ namespace WorkManager.UnitTests
 				new Interceptor<InterfaceInterceptor>(),
 				new InterceptionBehavior<LoggingInterceptionBehavior>());
 
-			var mgr = new WorkManager { GetWorkerFromIocContainer = () => container.Resolve<IWorker>() };
+			var mgr = new WorkerManager(container.Resolve<IWorker>());
 			mgr.WorkerDoWork("TestWorkerUnity");
 		}
 
@@ -60,7 +60,7 @@ namespace WorkManager.UnitTests
 			m.Setup(f => f.DoWork(It.IsAny<string>()))
 			 .Callback<string>(str => { Debug.WriteLine("MoqWorker: " + str); });
 
-			var mgr = new WorkManager { GetWorkerFromIocContainer = () => m.Object };
+			var mgr = new WorkerManager(m.Object);
 			mgr.WorkerDoWork("TestMoqNoUnity");
 		}
 
@@ -74,7 +74,7 @@ namespace WorkManager.UnitTests
 			var container = new UnityContainer();
 			container.RegisterInstance(m.Object);
 
-			var mgr = new WorkManager { GetWorkerFromIocContainer = () => container.Resolve<IWorker>() };
+			var mgr = new WorkerManager(container.Resolve<IWorker>());
 			mgr.WorkerDoWork("TestMoqWithUnity");
 		}
 	}
