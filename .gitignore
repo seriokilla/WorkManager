@@ -47,4 +47,7 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-packages/Moq.4.2.1510.2205/lib/net40/Moq.xml
+packages
+bin
+obj
+.vs
