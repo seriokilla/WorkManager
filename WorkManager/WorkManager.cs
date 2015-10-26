@@ -29,7 +29,12 @@ namespace WorkManager
 		}
 	}
 
-	public class WorkerManager
+	public interface IWorkerManager
+	{
+		void WorkerDoWork(string msg);
+	}
+
+	public class WorkerManager : IWorkerManager
 	{
 		private readonly IWorker _worker;
 		public WorkerManager(IWorker w)
