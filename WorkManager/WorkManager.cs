@@ -29,26 +29,21 @@ namespace WorkManager
 		}
 	}
 
-	public class WorkManager
+	public interface IWorkerManager
 	{
-		private IWorker _worker;
-		private IWorker Worker
+		void WorkerDoWork(string msg);
+	}
+
+	public class WorkerManager : IWorkerManager
+	{
+		private readonly IWorker _worker;
+		public WorkerManager(IWorker w)
 		{
-			get { return _worker ?? (_worker = GetWorkerFromIocContainer()); }
-			set { _worker = value; }
+			_worker = w;
 		}
-		public WorkManager()
-		{
-			GetWorkerFromIocContainer = () => { throw new Exception("GetWorkerFromIocContainer delegate not initialized."); };
-		}
-		public WorkManager(IWorker w)
-		{
-			Worker = w;
-		}
-		public Func<IWorker> GetWorkerFromIocContainer { private get; set; }
 		public void WorkerDoWork(string msg)
 		{
-			Worker.DoWork(msg);
+			_worker.DoWork(msg);
 		}
 	}
 

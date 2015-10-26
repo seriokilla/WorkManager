@@ -29,7 +29,7 @@ $RECYCLE.BIN/
 
 # OSX
 # =========================
-
+*.suo
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -49,5 +49,9 @@ Temporary Items
 .apdisk
 packages
 bin
+<<<<<<< HEAD
 obj
 .vs
+=======
+obj
+>>>>>>> r1026-0655

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,29 +11,43 @@ namespace WorkManager.UnitTests
 	public class UnitTest1
 	{
 		[TestMethod]
-		[ExpectedException(typeof(System.Exception))]
-		public void TestWorkerDelUnityException()
-		{
-			var mgr = new WorkManager();
-			mgr.WorkerDoWork("TestWorkerDelUnityException");
-		}
-
-		[TestMethod]
-		public void TestWorkerDelegateUnity()
+		public void TestWorkerDelegateRegisterInstance()
 		{
 			var container = new UnityContainer();
 			container.AddNewExtension<Interception>();
-
-			container.RegisterInstance<IWorker>(
-				new WorkerDelegate() { Work = msg => Debug.WriteLine("WorkerDelegate: " + msg) },
-				new ContainerControlledLifetimeManager());
-
 			container.RegisterType<IWorker>(
 				new Interceptor<InterfaceInterceptor>(),
 				new InterceptionBehavior<LoggingInterceptionBehavior>());
 
-			var mgr = new WorkManager { GetWorkerFromIocContainer = () => container.Resolve<IWorker>() };
-			mgr.WorkerDoWork("TestWorkerDelegateUnity");
+			container.RegisterInstance<IWorker>(
+				new WorkerDelegate() { Work = msg => Debug.WriteLine("WorkerDelegate: " + msg) }
+			);
+			container.RegisterInstance<IWorkerManager>(
+				new WorkerManager(container.Resolve<IWorker>())
+			);
+			
+			var mgr = container.Resolve<IWorkerManager>();
+			mgr.WorkerDoWork("TestWorkerDelegateRegisterInstance");
+		}
+
+		[TestMethod]
+		public void TestWorkerDelegateRegisterType()
+		{
+			var container = new UnityContainer();
+			container.AddNewExtension<Interception>();
+			container.RegisterType<IWorker>(
+				new Interceptor<InterfaceInterceptor>(),
+				new InterceptionBehavior<LoggingInterceptionBehavior>());
+
+			container.RegisterType<IWorker, WorkerDelegate>(
+				new InjectionProperty("Work", (Action<string>)(msg => Debug.WriteLine("WorkerDelegate: " + msg)))
+			);
+			container.RegisterType<IWorkerManager, WorkerManager>(
+				new InjectionConstructor(container.Resolve<IWorker>())
+			);
+
+			var mgr = container.Resolve<IWorkerManager>();
+			mgr.WorkerDoWork("TestWorkerDelegateRegisterInstance");
 		}
 
 		[TestMethod]
@@ -41,15 +56,12 @@ namespace WorkManager.UnitTests
 			var container = new UnityContainer();
 			container.AddNewExtension<Interception>();
 
-			container.RegisterInstance<IWorker>(
-				new Worker(),
-				new ContainerControlledLifetimeManager());
+			container.RegisterType<IWorker, Worker>();
+			container.RegisterType<IWorkerManager, WorkerManager>(
+				new InjectionConstructor(container.Resolve<IWorker>())
+			);
 
-			container.RegisterType<IWorker>(
-				new Interceptor<InterfaceInterceptor>(),
-				new InterceptionBehavior<LoggingInterceptionBehavior>());
-
-			var mgr = new WorkManager { GetWorkerFromIocContainer = () => container.Resolve<IWorker>() };
+			var mgr = container.Resolve<IWorkerManager>();
 			mgr.WorkerDoWork("TestWorkerUnity");
 		}
 
@@ -60,7 +72,7 @@ namespace WorkManager.UnitTests
 			m.Setup(f => f.DoWork(It.IsAny<string>()))
 			 .Callback<string>(str => { Debug.WriteLine("MoqWorker: " + str); });
 
-			var mgr = new WorkManager { GetWorkerFromIocContainer = () => m.Object };
+			var mgr = new WorkerManager(m.Object);
 			mgr.WorkerDoWork("TestMoqNoUnity");
 		}
 
@@ -74,7 +86,7 @@ namespace WorkManager.UnitTests
 			var container = new UnityContainer();
 			container.RegisterInstance(m.Object);
 
-			var mgr = new WorkManager { GetWorkerFromIocContainer = () => container.Resolve<IWorker>() };
+			var mgr = new WorkerManager(container.Resolve<IWorker>());
 			mgr.WorkerDoWork("TestMoqWithUnity");
 		}
 	}
