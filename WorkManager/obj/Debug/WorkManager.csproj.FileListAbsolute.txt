@@ -1,5 +1,0 @@
-C:\Projects\WorkManager\WorkManager\bin\Debug\WorkManager.dll
-C:\Projects\WorkManager\WorkManager\bin\Debug\WorkManager.pdb
-C:\Projects\WorkManager\WorkManager\obj\Debug\WorkManager.dll
-C:\Projects\WorkManager\WorkManager\obj\Debug\WorkManager.pdb
-C:\Projects\WorkManager\WorkManager\obj\Debug\WorkManager.csprojResolveAssemblyReference.cache
