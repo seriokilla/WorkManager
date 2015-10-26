@@ -20,13 +20,12 @@ namespace WorkManager.UnitTests
 		[TestMethod]
 		public void TestWorkerDelegateUnity()
 		{
-            var container = new UnityContainer();
+			var container = new UnityContainer();
+			container.AddNewExtension<Interception>();
 			container.RegisterInstance<IWorker>(
-				new WorkerDelegate() { Work = msg => Debug.WriteLine("WorkerDelegate: " + msg) }, 
+				new WorkerDelegate() { Work = msg => Debug.WriteLine("WorkerDelegate: " + msg) },
 				new ContainerControlledLifetimeManager());
 
-			container.AddNewExtension<Interception>();
-		
 			container.RegisterType<IWorker>(
 				new Interceptor<InterfaceInterceptor>(),
 				new InterceptionBehavior<LoggingInterceptionBehavior>());
@@ -39,13 +38,14 @@ namespace WorkManager.UnitTests
 		public void TestWorkerUnity()
 		{
 			var container = new UnityContainer();
+			container.AddNewExtension<Interception>();
+
 			container.RegisterInstance<IWorker>(
-				new Worker(), 
+				new Worker(),
 				new ContainerControlledLifetimeManager());
 
-			container.AddNewExtension<Interception>();
-			container.RegisterType<IWorker, Worker>(
-				new Interceptor<InterfaceInterceptor>(), 
+			container.RegisterType<IWorker>(
+				new Interceptor<InterfaceInterceptor>(),
 				new InterceptionBehavior<LoggingInterceptionBehavior>());
 
 			var mgr = new WorkManager { GetWorkerFromIocContainer = () => container.Resolve<IWorker>() };
