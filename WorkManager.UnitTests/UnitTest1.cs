@@ -4,6 +4,7 @@ using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using InterceptionBehavior;
 
 namespace WorkManager.UnitTests
 {
@@ -17,7 +18,8 @@ namespace WorkManager.UnitTests
 			container.AddNewExtension<Interception>();
 			container.RegisterType<IWorker>(
 				new Interceptor<InterfaceInterceptor>(),
-				new InterceptionBehavior<LoggingInterceptionBehavior>());
+				new InterceptionBehavior<LoggingInterceptionBehavior>()
+			);
 
 			container.RegisterInstance<IWorker>(
 				new WorkerDelegate() { Work = msg => Debug.WriteLine("WorkerDelegate: " + msg) }
@@ -25,7 +27,7 @@ namespace WorkManager.UnitTests
 			container.RegisterInstance<IWorkerManager>(
 				new WorkerManager(container.Resolve<IWorker>())
 			);
-			
+
 			var mgr = container.Resolve<IWorkerManager>();
 			mgr.WorkerDoWork("TestWorkerDelegateRegisterInstance");
 		}
@@ -37,7 +39,8 @@ namespace WorkManager.UnitTests
 			container.AddNewExtension<Interception>();
 			container.RegisterType<IWorker>(
 				new Interceptor<InterfaceInterceptor>(),
-				new InterceptionBehavior<LoggingInterceptionBehavior>());
+				new InterceptionBehavior<LoggingInterceptionBehavior>()
+			);
 
 			container.RegisterType<IWorker, WorkerDelegate>(
 				new InjectionProperty("Work", (Action<string>)(msg => Debug.WriteLine("WorkerDelegate: " + msg)))

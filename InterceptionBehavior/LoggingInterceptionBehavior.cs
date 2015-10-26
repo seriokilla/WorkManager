@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Practices.Unity.InterceptionExtension;
 
-namespace WorkManager.UnitTests
+namespace InterceptionBehavior
 {
-	class LoggingInterceptionBehavior : IInterceptionBehavior
+	public class LoggingInterceptionBehavior : IInterceptionBehavior
 	{
 		public IMethodReturn Invoke(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext)
 		{
