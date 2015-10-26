@@ -50,11 +50,11 @@ namespace WorkManager.UnitTests
 			);
 
 			var mgr = container.Resolve<IWorkerManager>();
-			mgr.WorkerDoWork("TestWorkerDelegateRegisterInstance");
+			mgr.WorkerDoWork("TestWorkerDelegateRegisterType");
 		}
 
 		[TestMethod]
-		public void TestWorkerUnity()
+		public void TestWorkerRegisterType()
 		{
 			var container = new UnityContainer();
 			container.AddNewExtension<Interception>();
@@ -65,7 +65,7 @@ namespace WorkManager.UnitTests
 			);
 
 			var mgr = container.Resolve<IWorkerManager>();
-			mgr.WorkerDoWork("TestWorkerUnity");
+			mgr.WorkerDoWork("TestWorkerRegisterType");
 		}
 
 		[TestMethod]
@@ -88,8 +88,9 @@ namespace WorkManager.UnitTests
 
 			var container = new UnityContainer();
 			container.RegisterInstance(m.Object);
+			container.RegisterInstance(new WorkerManager(container.Resolve<IWorker>()));
 
-			var mgr = new WorkerManager(container.Resolve<IWorker>());
+			var mgr = container.Resolve<IWorkerManager>();
 			mgr.WorkerDoWork("TestMoqWithUnity");
 		}
 	}
