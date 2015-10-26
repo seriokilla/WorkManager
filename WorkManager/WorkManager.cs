@@ -41,7 +41,6 @@ namespace WorkManager
 		{
 			GetWorkerFromIocContainer = () => { throw new Exception("GetWorkerFromIocContainer delegate not initialized."); };
 		}
-
 		public WorkManager(IWorker w)
 		{
 			Worker = w;
