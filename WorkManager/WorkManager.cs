@@ -41,11 +41,19 @@ namespace WorkManager
 		{
 			_worker = w;
 		}
+		public IWorker Worker
+		{
+			get
+			{
+           		if (_worker == null)
+           			throw new Exception("Worker not initialized.");
+				return _worker;
+			}
+           	protected set { _worker = value; }
+		}
 		public void WorkerDoWork(string msg)
 		{
 			_worker.DoWork(msg);
 		}
 	}
-
-
 }
