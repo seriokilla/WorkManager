@@ -37,16 +37,16 @@ namespace WorkManager.UnitTests
 		{
 			var container = new UnityContainer();
 			container.AddNewExtension<Interception>();
-			container.RegisterType<IWorker>(
-				new Interceptor<InterfaceInterceptor>(),
+			container.RegisterType<IWorker, WorkerDelegate>(
+				new InjectionProperty("Work", (Action<string>)(msg => Debug.WriteLine("WorkerDelegate: " + msg))),
+                new Interceptor<InterfaceInterceptor>(),
 				new InterceptionBehavior<LoggingInterceptionBehavior>()
 			);
 
-			container.RegisterType<IWorker, WorkerDelegate>(
-				new InjectionProperty("Work", (Action<string>)(msg => Debug.WriteLine("WorkerDelegate: " + msg)))
-			);
 			container.RegisterType<IWorkerManager, WorkerManager>(
-				new InjectionConstructor(container.Resolve<IWorker>())
+				new InjectionConstructor(container.Resolve<IWorker>()),
+				new Interceptor<InterfaceInterceptor>(),
+				new InterceptionBehavior<LoggingInterceptionBehavior>()
 			);
 
 			var mgr = container.Resolve<IWorkerManager>();
