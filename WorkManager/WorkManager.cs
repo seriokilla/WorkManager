@@ -45,11 +45,11 @@ namespace WorkManager
 		{
 			get
 			{
-           		if (_worker == null)
-           			throw new Exception("Worker not initialized.");
+				if (_worker == null)
+					throw new Exception("Worker not initialized.");
 				return _worker;
 			}
-           		protected set { _worker = value; }
+			protected set { _worker = value; }
 		}
 		public void WorkerDoWork(string msg)
 		{
