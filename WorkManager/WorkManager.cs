@@ -36,7 +36,7 @@ namespace WorkManager
 
 	public class WorkerManager : IWorkerManager
 	{
-		private readonly IWorker _worker;
+		private IWorker _worker;
 		public WorkerManager(IWorker w)
 		{
 			_worker = w;
