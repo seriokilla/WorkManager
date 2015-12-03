@@ -1,7 +1,9 @@
+<!DOCTYPE html><html lang="en-US"><meta charset="utf-8">
 <html>
   <head>
     <!--Load the AJAX API-->
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
     <script type="text/javascript">
 
       // Load the Visualization API and the piechart package.
@@ -16,17 +18,14 @@
       function drawChart() {
 
         // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Mushrooms', 3],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2],
-          ['Bacon', 9]
-        ]);
+        var jsonData = $.ajax({
+          url: "pizza.json",
+          dataType: "json",
+          async: false
+          }).responseText;
+
+        // Create our data table out of JSON data loaded from server.
+        var data = new google.visualization.DataTable(jsonData);
 
         // Set chart options
         var options = {'title':'How Much Pizza I Ate Last Night',
