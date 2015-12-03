@@ -1,6 +1,8 @@
+<!DOCTYPE html><html lang="en-US"><meta charset="utf-8">
 <html>
   <head>
     <!--Load the AJAX API-->
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
 
@@ -16,18 +18,25 @@
       function drawChart() {
 
         // Create the data table.
+        var jsonData = $.ajax({
+          url: "pizzad3.json",
+          dataType: "json",
+          async: false
+          }).responseText;
+
+        console.log(jsonData);
+        JSON.parse(jsonData).forEach(function(d){
+          console.log(d.pizza + " " + d.count);
+        });
+
+        // Create our data table out of JSON data loaded from server.
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Topping');
         data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Mushrooms', 3],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2],
-          ['Bacon', 9]
-        ]);
-
+        
+        JSON.parse(jsonData).forEach(function(d){
+          data.addRow([d.pizza, d.count]);
+        });
         // Set chart options
         var options = {'title':'How Much Pizza I Ate Last Night',
                        'width':1000,
