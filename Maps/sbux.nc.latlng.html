@@ -26,14 +26,12 @@ d3.tsv("../data/sbux.latlng.nc.tsv", function(err, data) {
         
         var marker = new google.maps.Marker({
               map: map,
-              position: { lat: parseFloat(d.lat), lng: parseFloat(d.lng) },
-			  animation: google.maps.Animation.DROP,
-			  icon: "google_map_man.gif"
-			});
+              position: { lat: parseFloat(d.lat), lng: parseFloat(d.lng) }
+      });
+      marker.setMap(map);
+      
       });
 });
-
- 
  
 
 
