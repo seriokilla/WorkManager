@@ -20,7 +20,7 @@
 </div>
 <br>
 <div>
-	<iframe src="http://localhost:50601/app/kibana#/dashboard/ipic-dashboard-1221-0142-31?embed&_g=(refreshInterval:(display:'5%20seconds',pause:!t,section:1,value:5000),time:(from:'2015-12-15T20:18:47.814Z',mode:absolute,to:'2015-12-19T07:36:03.966Z'))&_a=(filters:!(),options:(darkTheme:!t),panels:!((col:1,id:ipic-iis-alertname-1221-0107-43,row:5,size_x:5,size_y:3,type:visualization),(col:1,id:ipic-mom-alertname-1221-0113-37,row:1,size_x:5,size_y:4,type:visualization),(col:6,id:ipic-mom-computername-1221-0109-05,row:1,size_x:4,size_y:4,type:visualization)),query:(query_string:(analyze_wildcard:!t,query:'*')),title:ipic-dashboard-1221-0142-31)" height="600" width="100%"></iframe>
+	<iframe src="http://localhost:50601/app/kibana#/dashboard/ipic-dashboard-1221-0142-31?embed&_g=(refreshInterval:(display:'5%20seconds',pause:!t,section:1,value:5000),time:(from:'2015-12-15T20:18:47.814Z',mode:absolute,to:'2015-12-19T07:36:03.966Z'))&_a=(filters:!(),options:(darkTheme:!t),panels:!((col:1,id:ipic-iis-alertname-1221-0107-43,row:5,size_x:5,size_y:3,type:visualization),(col:1,id:ipic-mom-alertname-1221-0113-37,row:1,size_x:5,size_y:4,type:visualization),(col:6,id:ipic-mom-computername-1221-0109-05,row:1,size_x:4,size_y:4,type:visualization)),query:(query_string:(analyze_wildcard:!t,query:'*')),title:ipic-dashboard-1221-0142-31)" height="600" width="800"></iframe>
 </div>
 </body>
 </html>

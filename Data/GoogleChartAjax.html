@@ -1,63 +1,58 @@
-﻿<!DOCTYPE html>
+﻿<!DOCTYPE html><meta charset="utf-8">
 <html lang="en-US">
-<meta charset="utf-8">
-<html>
-<head>
+  <head>
     <!--Load the AJAX API-->
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../Scripts/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="//www.google.com/jsapi"></script>
     <script type="text/javascript">
-        /// <reference path="//code.jquery.com/jquery-1.11.3.min.js" />
-        /// <reference path="//www.google.com/jsapi" />
 
-        // Load the Visualization API and the piechart package.
-        google.load('visualization', '1.0', { 'packages': ['corechart'] });
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
 
-        // Set a callback to run when the Google Visualization API is loaded.
-        google.setOnLoadCallback(drawChart);
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
 
-        // Callback that creates and populates a data table,
-        // instantiates the pie chart, passes in the data and
-        // draws it.
-        function drawChart() {
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+        // Create the data table.
+        var jsonData = $.ajax({
+          url: "pizza.json",
+          dataType: "json",
+          async: false
+          }).responseText;
 
-            // Create the data table.
-            var jsonData = $.ajax({
-                url: "pizza.json",
-                dataType: "json",
-                async: false
-            }).responseText;
+        // Create our data table out of JSON data loaded from server.
+        var data = new google.visualization.DataTable(jsonData);
 
-            
-            // Create our data table out of JSON data loaded from server.
-            var data = new google.visualization.DataTable(jsonData);
+        // Set chart options
+        var options = {'title':'How Much Pizza I Ate Last Night',
+                       'width':1000,
+                       'height':500
+                      };
 
-            // Set chart options
-            var options = {
-                'title': 'How Much Pizza I Ate Last Night',
-                'width': 1000,
-                'height': 500
-            };
+        // Instantiate and draw our chart, passing in some options.
+        var pie = new google.visualization.PieChart(document.getElementById('piediv'));
+        pie.draw(data, options);
 
-            // Instantiate and draw our chart, passing in some options.
-            var pie = new google.visualization.PieChart(document.getElementById('piediv'));
-            pie.draw(data, options);
+        var bar = new google.visualization.BarChart(document.getElementById('bardiv'));
+        bar.draw(data, options);
 
-            var bar = new google.visualization.BarChart(document.getElementById('bardiv'));
-            bar.draw(data, options);
+        var line = new google.visualization.LineChart(document.getElementById('linediv'));
+        line.draw(data, options);
 
-            var line = new google.visualization.LineChart(document.getElementById('linediv'));
-            line.draw(data, options);
-
-            var Column = new google.visualization.ColumnChart(document.getElementById('Columndiv'));
-            Column.draw(data, options);
-        }
+        var Column = new google.visualization.ColumnChart(document.getElementById('Columndiv'));
+        Column.draw(data, options);
+      }
     </script>
-</head>
-<body>
+  </head>
+
+  <body>
     <!--Div that will hold the pie chart-->
     <div id="piediv"></div>
     <div id="bardiv"></div>
     <div id="linediv"></div>
     <div id="Columndiv"></div>
+</body>
 </html>

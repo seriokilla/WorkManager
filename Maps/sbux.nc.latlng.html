@@ -1,55 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <style type="text/css">
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        #map {
-            height: 100%;
-        }
-    </style>
-</head>
-<body>
+  <head>
+    <style type="text/css">html, body { height: 100%; margin: 0; padding: 0; } #map { height: 100%; }</style>
+  </head>
+  <body>
     <div id="map"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.10/d3.min.js"></script>
     <script type="text/javascript">
 
-        var map;
-        function initMap() {
-            var latlng = new google.maps.LatLng(36, -79);
-            var mapOptions = {
-                zoom: 8,
-                center: latlng
-            }
-            map = new google.maps.Map(document.getElementById("map"), mapOptions);
-        }
+var map;
+function initMap() {
+  var latlng = new google.maps.LatLng(36, -79);
+  var mapOptions = {
+    zoom: 8,
+    center: latlng
+  }
+  map = new google.maps.Map(document.getElementById("map"), mapOptions);
+}
 
 
-        d3.tsv("../data/sbux.latlng.nc.tsv", function (err, data) {
+d3.tsv("../data/sbux.latlng.nc.tsv", function(err, data) {
 
-            data.forEach(function (d) {
-                console.log(d.lat + " " + d.lng);
-
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: { lat: parseFloat(d.lat), lng: parseFloat(d.lng) },
-                    animation: google.maps.Animation.DROP,
-                    icon: "google_map_man.gif"
-                });
-            });
-        });
-
-
-
+      data.forEach(function(d){
+        console.log(d.lat + " " + d.lng);
+        
+        var marker = new google.maps.Marker({
+              map: map,
+              position: { lat: parseFloat(d.lat), lng: parseFloat(d.lng) }
+      });
+      marker.setMap(map);
+      
+      });
+});
+ 
 
 
     </script>
     <script async defer
-            src="https://maps.googleapis.com/maps/api/js?libraries=visualization&callback=initMap">
+      src="https://maps.googleapis.com/maps/api/js?libraries=visualization&callback=initMap">
     </script>
-</body>
+  </body>
 </html>
