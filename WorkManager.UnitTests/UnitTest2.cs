@@ -77,8 +77,12 @@ namespace WorkManager.UnitTests
 		public void TestMethod1()
 		{
 			var n = MyNum.five;
-
 			Debug.WriteLine(n.ToUserFriendlyString());
+
+			string sTest = null;
+			var sLeft = sTest?.Substring(0, 1);
 		}
+
+
 	}
 }
